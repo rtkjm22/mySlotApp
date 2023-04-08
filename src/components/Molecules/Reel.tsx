@@ -1,4 +1,6 @@
-const Reel = ({ position, active, reelArr, resultArr }) => {
+import { Reel } from './Reel.alias'
+
+const Reel = ({ position, active, reelArr, resultArr }: Reel) => {
   return (
     <div className="w-full h-[600px] bg-white transition-all overflow-hidden">
       {/* リール目 */}
