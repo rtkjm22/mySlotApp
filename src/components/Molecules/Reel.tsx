@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { Reel } from './Reel.alias'
 
 const Reel = ({ position, active, reelArr, resultArr }: Reel) => {
@@ -9,29 +10,35 @@ const Reel = ({ position, active, reelArr, resultArr }: Reel) => {
           active ? 'visible opacity-100' : `opacity-0 h-0`
         }`}
       >
-        <ul className={`text-blue-500 animate-slide-bottom-${position}`}>
+        <ul className={`animate-slide-bottom-${position}`}>
           {reelArr.map((item, index) => (
             <li
               key={`${item}-${index}`}
-              className={`w-full h-[200px] text-center border ${
-                index % 2 === 0 ? 'bg-blue-50' : ''
-              }`}
+              className={`w-full h-[200px] text-center border flex justify-center items-center`}
             >
-              {item}
+              <Image
+                src={`/img/reel_${item}.png`}
+                alt="リールの出目"
+                width={250}
+                height={250}
+                className={`object-contain`}
+              />
             </li>
           ))}
         </ul>
-        <ul
-          className={`text-red-500 opacity-0 animate-slide-bottom-${position}`}
-        >
+        <ul className={`opacity-0 animate-slide-bottom-${position}`}>
           {reelArr.map((item, index) => (
             <li
               key={`${item}2-${index}`}
-              className={`w-full h-[200px] text-center border ${
-                index % 2 === 0 ? 'bg-red-50' : ''
-              }`}
+              className={`w-full h-[200px] text-center border flex justify-center items-center`}
             >
-              {item}
+              <Image
+                src={`/img/reel_${item}.png`}
+                alt="リールの出目"
+                width={250}
+                height={250}
+                className={`object-contain`}
+              />
             </li>
           ))}
         </ul>
@@ -43,19 +50,19 @@ const Reel = ({ position, active, reelArr, resultArr }: Reel) => {
           active ? 'invisible' : 'visible'
         }`}
       >
-        <ul
-          className={`text-red-500 ${
-            active ? '' : 'animate-slide-bottom-delay'
-          }`}
-        >
+        <ul className={`${active ? '' : 'animate-slide-bottom-delay'}`}>
           {resultArr.map((item, index) => (
             <li
               key={`${item}2-${index}`}
-              className={`w-full h-[200px] text-center border bg-yellow-300 ${
-                index % 2 === 0 ? 'bg-red-50' : ''
-              }`}
+              className={`w-full h-[200px] text-center border bg-yellow-300 flex justify-center items-center`}
             >
-              {item}
+              <Image
+                src="/img/reel_watermelon.png"
+                alt="リールの出目"
+                width={250}
+                height={250}
+                className={`object-contain`}
+              />
             </li>
           ))}
         </ul>
