@@ -1,14 +1,3 @@
-import { ReactNode } from 'react'
-
-type ReelKind =
-  | 'cherry'
-  | 'bar'
-  | 'grape'
-  | 'replay'
-  | 'bell'
-  | 'watermelon'
-  | 'seven'
-
 type Reel = {
   position: 'left' | 'middle' | 'right'
   active: Boolean
@@ -22,4 +11,10 @@ type Reel = {
   }[]
 }
 
-export type { Reel, ReelKind }
+type ResultArr = {
+  left: { key: Number; name: String }[]
+  middle: { key: Number; name: String }[]
+  right: { key: Number; name: String }[]
+}
+
+export type { Reel, ResultArr }
