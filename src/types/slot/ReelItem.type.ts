@@ -6,12 +6,13 @@ type ReelAnimation =
   | 'animate-slide-bottom-right'
 
 type ReelItem = {
-  reelAnimation: ReelAnimation
   reelArr: {
     name: String
     key: Number
   }[]
+  reelAnimation?: ReelAnimation
   option?: 'sub' | 'result'
+  active?: Boolean
 }
 
 export type { ReelAnimation, ReelItem }

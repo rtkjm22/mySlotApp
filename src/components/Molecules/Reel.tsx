@@ -1,6 +1,6 @@
 import { Reel } from '@/types/slot/Reel.type'
-import Deme from '../../pages/Atoms/Deme'
-import ReelItem from '../../pages/Atoms/ReelItem'
+import Deme from '../Atoms/Deme'
+import ReelItem from '../Atoms/ReelItem'
 import { ReelAnimation } from '@/types/slot/ReelItem.type'
 
 const Reel = ({ position, active, reelArr, resultArr }: Reel) => {
@@ -32,21 +32,12 @@ const Reel = ({ position, active, reelArr, resultArr }: Reel) => {
           active ? 'visible opacity-100' : `opacity-0 h-0`
         }`}
       >
-        <ReelItem reelAnimation={reelAnimation} reelArr={reelArr} />
-        <ul className={`opacity-0 ${reelAnimation}`}>
-          {reelArr.map((item, index) => (
-            <li
-              key={`sub-${item.name}-${index}`}
-              className={`w-full h-[200px] text-center border flex justify-center items-center p-6`}
-            >
-              <Deme item={item} key={index} />
-            </li>
-          ))}
-        </ul>
+        <ReelItem reelArr={reelArr} reelAnimation={reelAnimation} />
+
         <ReelItem
-          reelAnimation={reelAnimation}
           reelArr={reelArr}
-          option={'sub'}
+          reelAnimation={reelAnimation}
+          option="sub"
         />
       </div>
 
@@ -56,16 +47,7 @@ const Reel = ({ position, active, reelArr, resultArr }: Reel) => {
           active ? 'invisible' : 'visible'
         }`}
       >
-        <ul className={`${active ? '' : 'animate-slide-bottom-delay'}`}>
-          {resultArr.map((item, index) => (
-            <li
-              key={`result-${item.name}-${index}`}
-              className={`w-full h-[200px] text-center border flex justify-center items-center p-6`}
-            >
-              <Deme item={item} key={index} />
-            </li>
-          ))}
-        </ul>
+        <ReelItem reelArr={resultArr} option="result" active={active} />
       </div>
     </div>
   )

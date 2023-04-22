@@ -1,4 +1,4 @@
-const prob = .5
+const prob = .3
 
 const reelLeft = [
   {
