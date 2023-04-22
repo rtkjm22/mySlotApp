@@ -1,111 +1,73 @@
-import Reel from '@/components/Molecules/Reel'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { prob, reelLeft, reelMiddle, reelRight } from '@/const/slot/Reels.const'
+import { demeKind } from '@/const/slot/Deme.const'
+import { Deme, DemeKind } from '@/types/slot/Deme.type'
+import { ResultArr } from '@/types/slot/Reels.type'
+import Reels from '@/components/Molecules/Reels'
 
 export default function Home() {
   const [active, setActive] = useState(false)
+  const [isWin, setIsWin] = useState(false)
+  const [resultArr, setResultArr] = useState<ResultArr>({
+    left: [],
+    middle: [],
+    right: []
+  })
 
-  const arr1 = [...Array(20).keys()].map((i) => ++i).sort((a, b) => b - a)
-  const arr2 = [...Array(3).keys()].map((i) => ++i).sort((a, b) => b - a)
+  useEffect(() => {
+    setResultArr({
+      left: reelLeft.slice(0, 3),
+      middle: reelMiddle.slice(0, 3),
+      right: reelRight.slice(0, 3)
+    })
+  }, [])
 
-  const reelLeft = [
-    'bell',
-    'watermelon',
-    'watermelon',
-    'grape',
-    'replay',
-    'bell',
-    'watermelon',
-    'cherry',
-    'bar',
-    'replay',
-    'bell',
-    'watermelon',
-    'watermelon',
-    'grape',
-    'replay',
-    'bell',
-    'watermelon',
-    'seven',
-    'seven',
-    'replay'
-  ]
+  const setArr = (targetArr: Deme[], deme?: DemeKind) => {
+    const arr = [...targetArr]
+    const targetDeme = deme
+      ? deme
+      : demeKind[Math.floor(Math.random() * demeKind.length)]
+    const filteredArr = arr.filter((n) => n.name === targetDeme)
+    const index: Number =
+      filteredArr[Math.floor(Math.random() * filteredArr.length)].key
 
-  const reelMiddle = [
-    'replay',
-    'grape',
-    'cherry',
-    'watermelon',
-    'bell',
-    'replay',
-    'bar',
-    'cherry',
-    'watermelon',
-    'bell',
-    'replay',
-    'grape',
-    'cherry',
-    'watermelon',
-    'bell',
-    'replay',
-    'seven',
-    'seven',
-    'watermelon',
-    'bell'
-  ]
-
-  const reelRight = [
-    'bell',
-    'watermelon',
-    'grape',
-    'replay',
-    'cherry',
-    'bell',
-    'watermelon',
-    'bar',
-    'replay',
-    'cherry',
-    'bell',
-    'watermelon',
-    'grape',
-    'replay',
-    'cherry',
-    'bell',
-    'seven',
-    'seven',
-    'replay',
-    'cherry'
-  ]
+    return [
+      arr[index == 0 ? 19 : +index - 1],
+      arr[+index],
+      arr[index == 19 ? 0 : +index + 1]
+    ]
+  }
 
   const sttSlot = () => {
+    // スロットの開始判定
     setActive(!active)
+    if (!active) return
+
+    // 当たり判定
+    const atari = Math.random() < prob
+    setIsWin(atari)
+    if (isWin) {
+      // 当たり目の設定
+      const deme = demeKind[Math.floor(Math.random() * demeKind.length)]
+      setResultArr({
+        left: setArr(reelLeft, deme),
+        middle: setArr(reelMiddle, deme),
+        right: setArr(reelRight, deme)
+      })
+    } else {
+      // はずれの場合はランダムな出目を表示
+      setResultArr({
+        left: setArr(reelLeft),
+        middle: setArr(reelMiddle),
+        right: setArr(reelRight)
+      })
+    }
   }
   return (
     <main className={`h-[100vh] flex flex-col justify-center items-center`}>
       <div className="w-[900px]">
         <div className="w-full grid grid-cols-3 gap-4">
-          {/* リール（左） */}
-          <Reel
-            position="left"
-            active={active}
-            reelArr={reelLeft}
-            resultArr={arr2}
-          />
-
-          {/* リール（中央） */}
-          <Reel
-            position="middle"
-            active={active}
-            reelArr={reelMiddle}
-            resultArr={arr2}
-          />
-
-          {/* リール（右） */}
-          <Reel
-            position="right"
-            active={active}
-            reelArr={reelRight}
-            resultArr={arr2}
-          />
+          <Reels active={active} resultArr={resultArr} />
         </div>
 
         <button className="px-4 py-2 bg-white text-black" onClick={sttSlot}>

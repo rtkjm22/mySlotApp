@@ -1,7 +1,29 @@
-import Image from 'next/image'
-import { Reel } from './Reel.alias'
+import { Reel } from '@/types/slot/Reel.type'
+import Deme from '../Atoms/Deme'
+import ReelItem from '../Atoms/ReelItem'
+import { ReelAnimation } from '@/types/slot/ReelItem.type'
 
 const Reel = ({ position, active, reelArr, resultArr }: Reel) => {
+  /**
+   * Tailwindは動的にクラス名を指定すると適用されないため、明示的に定義
+   * @see https://chaika.hatenablog.com/entry/2022/06/22/083000
+   */
+  let reelAnimation: ReelAnimation
+  switch (position) {
+    case 'left':
+      reelAnimation = 'animate-slide-bottom-left'
+      break
+    case 'middle':
+      reelAnimation = 'animate-slide-bottom-middle'
+      break
+    case 'right':
+      reelAnimation = 'animate-slide-bottom-right'
+      break
+    default:
+      reelAnimation = 'animate-slide-bottom-middle'
+      break
+  }
+
   return (
     <div className="w-full h-[600px] bg-white transition-all overflow-hidden">
       {/* リール目 */}
@@ -10,38 +32,13 @@ const Reel = ({ position, active, reelArr, resultArr }: Reel) => {
           active ? 'visible opacity-100' : `opacity-0 h-0`
         }`}
       >
-        <ul className={`animate-slide-bottom-${position}`}>
-          {reelArr.map((item, index) => (
-            <li
-              key={`${item}-${index}`}
-              className={`w-full h-[200px] text-center border flex justify-center items-center`}
-            >
-              <Image
-                src={`/img/reel_${item}.png`}
-                alt="リールの出目"
-                width={250}
-                height={250}
-                className={`object-contain`}
-              />
-            </li>
-          ))}
-        </ul>
-        <ul className={`opacity-0 animate-slide-bottom-${position}`}>
-          {reelArr.map((item, index) => (
-            <li
-              key={`${item}2-${index}`}
-              className={`w-full h-[200px] text-center border flex justify-center items-center`}
-            >
-              <Image
-                src={`/img/reel_${item}.png`}
-                alt="リールの出目"
-                width={250}
-                height={250}
-                className={`object-contain`}
-              />
-            </li>
-          ))}
-        </ul>
+        <ReelItem reelArr={reelArr} reelAnimation={reelAnimation} />
+
+        <ReelItem
+          reelArr={reelArr}
+          reelAnimation={reelAnimation}
+          option="sub"
+        />
       </div>
 
       {/* 結果 */}
@@ -50,22 +47,7 @@ const Reel = ({ position, active, reelArr, resultArr }: Reel) => {
           active ? 'invisible' : 'visible'
         }`}
       >
-        <ul className={`${active ? '' : 'animate-slide-bottom-delay'}`}>
-          {resultArr.map((item, index) => (
-            <li
-              key={`${item}2-${index}`}
-              className={`w-full h-[200px] text-center border bg-yellow-300 flex justify-center items-center`}
-            >
-              <Image
-                src="/img/reel_watermelon.png"
-                alt="リールの出目"
-                width={250}
-                height={250}
-                className={`object-contain`}
-              />
-            </li>
-          ))}
-        </ul>
+        <ReelItem reelArr={resultArr} option="result" active={active} />
       </div>
     </div>
   )
