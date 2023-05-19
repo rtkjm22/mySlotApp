@@ -1,26 +1,20 @@
-import axios from '@/utils/useAxios'
+import { selectIsLogin } from '@/stores/authSlice'
+import { selectUserInfo } from '@/stores/userSlice'
+import { UserInfo } from '@/types/store/user/user'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useEffect, useLayoutEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 
 function UserDetail() {
-  const [userInfo, setUserInfo] = useState({})
   const router = useRouter()
+  const isLogin = useSelector(selectIsLogin)
+  const userInfo: UserInfo = useSelector(selectUserInfo)
 
-  const { user } = router.query
-
-  useEffect(() => {
-    ;(async () => {
-      const res = await axios.get(`/users/${user}`)
-      !res && router.push('/login')
-      setUserInfo(res.data)
-    })()
+  useLayoutEffect(() => {
+    !isLogin && router.push('/login')
   }, [])
 
-  return (
-    <>
-      <div>{user}</div>
-    </>
-  )
+  return <>{userInfo.id}</>
 }
 
 export default UserDetail
