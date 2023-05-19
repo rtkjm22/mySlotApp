@@ -1,12 +1,21 @@
 import { configureStore } from '@reduxjs/toolkit'
-import userSlice from './userSlice'
-import authSlice from './authSlice'
+import rootReducer from './reducer'
+import storage from 'redux-persist/lib/storage'
+import { persistReducer, persistStore } from 'redux-persist'
+import thunk from 'redux-thunk';
+
+const persistConfig = {
+  key: 'root',
+  storage
+}
+
+const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 const store = configureStore({
-  reducer: {
-    auth: authSlice,
-    user: userSlice
-  }
+  reducer: persistedReducer,
+  middleware: [thunk]
 })
 
-export default store
+const persistor = persistStore(store)
+
+export { store, persistor }

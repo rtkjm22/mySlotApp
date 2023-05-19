@@ -3,8 +3,8 @@ import { AxiosResponse } from 'axios'
 import axios from '@/utils/useAxios'
 import { useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
-import { setUserInfo } from '@/stores/userSlice'
-import { isLogin } from '@/stores/authSlice'
+import { setUserInfo } from '@/stores/slice/userSlice'
+import { isLogin } from '@/stores/slice/authSlice'
 
 function Login() {
   const [email, setEmail] = useState('buz@example.com')

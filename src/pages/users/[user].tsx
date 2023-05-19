@@ -1,5 +1,5 @@
-import { selectIsLogin } from '@/stores/authSlice'
-import { selectUserInfo } from '@/stores/userSlice'
+import { selectIsLogin } from '@/stores/slice/authSlice'
+import { selectUserInfo } from '@/stores/slice/userSlice'
 import { UserInfo } from '@/types/store/user/user'
 import { useRouter } from 'next/router'
 import { useEffect, useLayoutEffect, useState } from 'react'
