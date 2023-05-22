@@ -1,4 +1,4 @@
-import { Auth, IsLogin } from '@/types/store/auth/auth'
+import { Auth } from '@/types/store/auth/auth'
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState: Auth = {
@@ -18,7 +18,7 @@ export const authSlice = createSlice({
   }
 })
 
-export const { isLogin } = authSlice.actions
+export const { isLogin, logout } = authSlice.actions
 export const selectIsLogin = (state: { auth: Auth }) => state.auth.isLogin
 
 export default authSlice.reducer
