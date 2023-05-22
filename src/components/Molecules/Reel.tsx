@@ -25,7 +25,7 @@ const Reel = ({ position, active, reelArr, resultArr }: Reel) => {
   }
 
   return (
-    <div className="w-full h-[600px] bg-white transition-all overflow-hidden">
+    <div className="w-full h-[600px] bg-gray-800 transition-all overflow-hidden dark:bg-white">
       {/* リール目 */}
       <div
         className={`transition-all duration-300 ${

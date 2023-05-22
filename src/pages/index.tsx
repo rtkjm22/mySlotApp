@@ -64,16 +64,16 @@ export default function Home() {
     }
   }
   return (
-    <main className={`h-[100vh] flex flex-col justify-center items-center`}>
+    <div className={`h-[100vh] flex flex-col justify-center items-center`}>
       <div className="w-[900px]">
         <div className="w-full grid grid-cols-3 gap-4">
           <Reels active={active} resultArr={resultArr} />
         </div>
 
-        <button className="px-4 py-2 bg-white text-black" onClick={sttSlot}>
+        <button className="px-4 py-2 text-white bg-gray-800 dark:bg-white dark:text-gray-800" onClick={sttSlot}>
           click:{active ? 'true' : 'false'}
         </button>
       </div>
-    </main>
+    </div>
   )
 }
