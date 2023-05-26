@@ -103,7 +103,7 @@ function Login() {
                   <div>
                     <label
                       htmlFor="email"
-                      className="block text-sm mb-2 dark:text-white"
+                      className="block text-sm mb-2 text-gray-900 dark:text-white"
                     >
                       Email address
                     </label>
@@ -112,7 +112,7 @@ function Login() {
                         type="email"
                         id="email"
                         name="email"
-                        className="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400"
+                        className="py-3 px-4 block w-full border border-gray-200 rounded-md text-sm text-gray-700 focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400"
                         required
                         value={email}
                         aria-describedby="email-error"
@@ -145,7 +145,7 @@ function Login() {
                     <div className="flex justify-between items-center">
                       <label
                         htmlFor="password"
-                        className="block text-sm mb-2 dark:text-white"
+                        className="block text-sm mb-2 text-gray-900 dark:text-white"
                       >
                         Password
                       </label>
@@ -161,7 +161,7 @@ function Login() {
                         type="password"
                         id="password"
                         name="password"
-                        className="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400"
+                        className="py-3 px-4 block w-full border border-gray-200 rounded-md text-sm text-gray-700 focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400"
                         required
                         value={password}
                         aria-describedby="password-error"
@@ -200,7 +200,7 @@ function Login() {
                     <div className="ml-3">
                       <label
                         htmlFor="remember-me"
-                        className="text-sm dark:text-white"
+                        className="text-sm text-gray-900 dark:text-white"
                       >
                         Remember me
                       </label>
