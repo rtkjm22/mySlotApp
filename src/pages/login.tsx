@@ -20,11 +20,11 @@ function Login() {
         password
       })
       if (res.status !== 201) throw new Error('リクエストに失敗しました。')
-      const user_id = res.data.userInfo?.user_id
-      if (!user_id) throw new Error('ユーザー情報を取得できませんでした。')
+      const unique_id = res.data.userInfo?.unique_id
+      if (!unique_id) throw new Error('ユーザー情報を取得できませんでした。')
       dispatch(setUserInfo(res.data))
       dispatch(isLogin(true))
-      router.push(`/users/${user_id}`)
+      router.push(`/users/${unique_id}`)
     } catch (error) {
       console.error(error)
       // ログインが失敗した場合は、ここでエラー処理を行う
@@ -33,7 +33,7 @@ function Login() {
 
   return (
     <>
-    <div className='h-screen flex justify-center items-center'>
+      <div className="h-screen flex justify-center items-center">
         <div className="w-1/3 bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-gray-800 dark:border-gray-700">
           <div className="p-4 sm:p-7">
             {/* ヘッダー */}
@@ -45,9 +45,7 @@ function Login() {
 
               {/* サインアップ用リンク */}
               <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                <span className='mr-2'>
-                Don&apos;t have an account yet?
-                </span>
+                <span className="mr-2">Don&apos;t have an account yet?</span>
                 <a
                   className="text-blue-600 decoration-2 hover:underline font-medium"
                   href="./login"
@@ -98,7 +96,6 @@ function Login() {
               {/* ログインフォーム */}
               <form onSubmit={handleSubmit}>
                 <div className="grid gap-y-4">
-
                   {/* Email */}
                   <div>
                     <label
@@ -218,7 +215,7 @@ function Login() {
             </div>
           </div>
         </div>
-    </div>
+      </div>
     </>
   )
 }

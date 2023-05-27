@@ -6,7 +6,7 @@ const initialState: User = {
     id: 0,
     name: '',
     email: '',
-    user_id: ''
+    unique_id: ''
   }
 }
 
