@@ -2,7 +2,7 @@ type UserInfo = {
   id: Number
   name: String
   email: String
-  user_id: String
+  unique_id: String
 }
 
 type User = {

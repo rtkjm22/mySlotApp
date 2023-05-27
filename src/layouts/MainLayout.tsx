@@ -14,10 +14,10 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   const userInfo: UserInfo = useSelector(selectUserInfo)
 
   const toggleDarkMode = () => {
-      // htmlタグにdarkクラスが含まれているかどうか
+    // htmlタグにdarkクラスが含まれているかどうか
     if (document.documentElement.classList.contains('dark')) {
-        document.documentElement.classList.remove('dark')
-        localStorage.theme = 'light'
+      document.documentElement.classList.remove('dark')
+      localStorage.theme = 'light'
     } else {
       document.documentElement.classList.add('dark')
       localStorage.theme = 'dark'
@@ -25,7 +25,11 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   }
 
   const initDarkMode = () => {
-    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    if (
+      localStorage.theme === 'dark' ||
+      (!('theme' in localStorage) &&
+        window.matchMedia('(prefers-color-scheme: dark)').matches)
+    ) {
       document.documentElement.classList.add('dark')
     } else {
       document.documentElement.classList.remove('dark')
@@ -76,8 +80,8 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
                 </li>
                 <li>
                   <Link
-                    href={`/users/${userInfo.user_id}`}
-                    className="block py-2 mr-4 pl-3 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:hover:bg-gray-700 text-white dark:text-gray-800 lg:dark:hover:bg-transparent dark:border-gray-700"
+                    href={`/users/${userInfo.unique_id}`}
+                    className="block py-2 mr-4 pl-3 border-b border-gray-100 lg:border-0 lg:p-0 text-white dark:text-gray-800 dark:border-gray-700"
                   >
                     Profiles
                   </Link>
@@ -85,7 +89,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
                 <li>
                   <Link
                     href="/logout"
-                    className="block py-2 mr-4 pl-3 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 text-white dark:text-gray-800 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
+                    className="block py-2 mr-4 pl-3 border-b border-gray-100 lg:border-0 lg:p-0 text-white dark:text-gray-800 dark:border-gray-700"
                   >
                     Logout
                   </Link>
@@ -93,7 +97,12 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
               </ul>
             </div>
 
-            <button className='text-white dark:text-gray-800' onClick={() => toggleDarkMode()}>Light/Dark</button>
+            <button
+              className="text-white dark:text-gray-800"
+              onClick={() => toggleDarkMode()}
+            >
+              Light/Dark
+            </button>
           </div>
         </nav>
       </header>
@@ -106,24 +115,36 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
         <div className="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
           <span className="text-sm text-white sm:text-center dark:text-gray-800">
             © 2023{' '}
-            <Link href="https://github.com/rtkjm22/" className="hover:underline">
+            <Link
+              href="https://github.com/rtkjm22/"
+              className="hover:underline"
+            >
               rtkjm22
             </Link>
             . All Rights Reserved.
           </span>
           <ul className="flex flex-wrap items-center mt-3 text-sm font-medium text-white dark:text-gray-800 sm:mt-0">
             <li>
-              <Link href="#" className="mr-4 hover:underline md:mr-6 text-white dark:text-gray-800">
+              <Link
+                href="#"
+                className="mr-4 hover:underline md:mr-6 text-white dark:text-gray-800"
+              >
                 About
               </Link>
             </li>
             <li>
-              <Link href="#" className="mr-4 hover:underline md:mr-6 text-white dark:text-gray-800">
+              <Link
+                href="#"
+                className="mr-4 hover:underline md:mr-6 text-white dark:text-gray-800"
+              >
                 Privacy Policy
               </Link>
             </li>
             <li>
-              <Link href="#" className="mr-4 hover:underline md:mr-6 text-white dark:text-gray-800">
+              <Link
+                href="#"
+                className="mr-4 hover:underline md:mr-6 text-white dark:text-gray-800"
+              >
                 Licensing
               </Link>
             </li>
