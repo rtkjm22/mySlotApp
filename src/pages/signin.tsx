@@ -1,18 +1,41 @@
 import { useState } from 'react'
-import { useRouter } from 'next/router'
+import { AxiosResponse } from 'axios'
+import axios from '@/utils/axiosInstance'
+import { NextRouter, useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
+import { setUserInfo } from '@/stores/slice/userSlice'
+import { isLogin } from '@/stores/slice/authSlice'
 import Link from 'next/link'
 import { login } from '@/utils/login'
 
-function Login() {
+function Signin() {
+  const [name, setName] = useState('piyopiyo')
   const [email, setEmail] = useState('piyo@example.com')
   const [password, setPassword] = useState('password222')
+  const [passwordConfirmation, setPasswordConfirmation] = useState('password222')
   const router = useRouter()
   const dispatch = useDispatch()
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    login(email, password, dispatch, router)
+    try {
+      const res: AxiosResponse = await axios.post('/users', {
+        name,
+        email,
+        password,
+        password_confirmation: passwordConfirmation
+      })
+      if (res.status !== 200) throw new Error('リクエストに失敗しました。')
+      const unique_id = res.data.userInfo?.unique_id
+      if (!unique_id) throw new Error('ユーザー情報を取得できませんでした。')
+      login(email, password, router, dispatch)
+      dispatch(setUserInfo(res.data))
+      dispatch(isLogin(true))
+      router.push(`/users/${unique_id}`)
+    } catch (error) {
+      console.error(error)
+      // ログインが失敗した場合は、ここでエラー処理を行う
+    }
   }
 
   return (
@@ -24,17 +47,17 @@ function Login() {
             <div className="text-center">
               {/* ページタイトル */}
               <h1 className="block text-2xl font-bold text-gray-800 dark:text-white">
-                Login
+                Sign in
               </h1>
 
               {/* サインアップ用リンク */}
               <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                <span className="mr-2">Don&apos;t have an account yet?</span>
+                <span className="mr-2">Already have an account?</span>
                 <Link
                   className="text-blue-600 decoration-2 hover:underline font-medium"
-                  href="/signin"
+                  href="./login"
                 >
-                  Sign up here
+                  Log in here
                 </Link>
               </p>
             </div>
@@ -70,9 +93,10 @@ function Login() {
                     fill="#EB4335"
                   />
                 </svg>
-                Log in with Google
+                Sign in with Google
               </button>
 
+              {/* 水平線 */}
               <div className="py-3 flex items-center text-xs text-gray-400 uppercase before:flex-[1_1_0%] before:border-t before:border-gray-200 before:mr-6 after:flex-[1_1_0%] after:border-t after:border-gray-200 after:ml-6 dark:text-gray-500 dark:before:border-gray-600 dark:after:border-gray-600">
                 Or
               </div>
@@ -80,6 +104,47 @@ function Login() {
               {/* ログインフォーム */}
               <form onSubmit={handleSubmit}>
                 <div className="grid gap-y-4">
+                  {/* Name */}
+                  <div>
+                    <label
+                      htmlFor="name"
+                      className="block text-sm mb-2 text-gray-900 dark:text-white"
+                    >
+                      Name
+                    </label>
+                    <div className="relative">
+                      <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        className="py-3 px-4 block w-full border border-gray-200 rounded-md text-sm text-gray-700 focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400"
+                        required
+                        value={name}
+                        aria-describedby="name-error"
+                        onChange={(e) => setName(e.target.value)}
+                      />
+                      <div className="hidden absolute inset-y-0 right-0 flex items-center pointer-events-none pr-3">
+                        <svg
+                          className="h-5 w-5 text-red-500"
+                          width="16"
+                          height="16"
+                          fill="currentColor"
+                          viewBox="0 0 16 16"
+                          aria-hidden="true"
+                        >
+                          <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
+                        </svg>
+                      </div>
+                    </div>
+                    <p
+                      className="hidden text-xs text-red-600 mt-2"
+                      id="name-error"
+                    >
+                      Please include a valid name so we can get back to
+                      you
+                    </p>
+                  </div>
+
                   {/* Email */}
                   <div>
                     <label
@@ -130,12 +195,6 @@ function Login() {
                       >
                         Password
                       </label>
-                      <a
-                        className="text-sm text-blue-600 decoration-2 hover:underline font-medium"
-                        href="./login"
-                      >
-                        Forgot password?
-                      </a>
                     </div>
                     <div className="relative">
                       <input
@@ -169,30 +228,54 @@ function Login() {
                     </p>
                   </div>
 
-                  <div className="flex items-center">
-                    <div className="flex">
-                      <input
-                        id="remember-me"
-                        name="remember-me"
-                        type="checkbox"
-                        className="shrink-0 mt-0.5 border-gray-200 rounded text-blue-600 pointer-events-none focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
-                      />
-                    </div>
-                    <div className="ml-3">
+                  {/* Password Confirmation */}
+                  <div>
+                    <div className="flex justify-between items-center">
                       <label
-                        htmlFor="remember-me"
-                        className="text-sm text-gray-900 dark:text-white"
+                        htmlFor="passwordConfirmation"
+                        className="block text-sm mb-2 text-gray-900 dark:text-white"
                       >
-                        Remember me
+                        Password Confirmation
                       </label>
                     </div>
+                    <div className="relative">
+                      <input
+                        type="password"
+                        id="passwordConfirmation"
+                        name="passwordConfirmation"
+                        className="py-3 px-4 block w-full border border-gray-200 rounded-md text-sm text-gray-700 focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400"
+                        required
+                        value={passwordConfirmation}
+                        aria-describedby="password-error"
+                        onChange={(e) => setPasswordConfirmation(e.target.value)}
+                      />
+                      <div className="hidden absolute inset-y-0 right-0 flex items-center pointer-events-none pr-3">
+                        <svg
+                          className="h-5 w-5 text-red-500"
+                          width="16"
+                          height="16"
+                          fill="currentColor"
+                          viewBox="0 0 16 16"
+                          aria-hidden="true"
+                        >
+                          <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
+                        </svg>
+                      </div>
+                    </div>
+                    <p
+                      className="hidden text-xs text-red-600 mt-2"
+                      id="password-error"
+                    >
+                      8+ characters required
+                    </p>
                   </div>
 
+                  {/* 送信ボタン */}
                   <button
                     type="submit"
                     className="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
                   >
-                    Login
+                    Sign in
                   </button>
                 </div>
               </form>
@@ -204,4 +287,4 @@ function Login() {
   )
 }
 
-export default Login
+export default Signin

@@ -66,6 +66,12 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
               >
                 Login
               </Link>
+              <Link
+                href="/signin"
+                className="block py-2 mr-4 pl-3  rounded bg-primary-700 lg:bg-transparent lg:text-primary-700 text-white dark:text-gray-800"
+              >
+                SingIn
+              </Link>
             </div>
 
             <div className={`${isLogin ? 'flex' : 'hidden'}`}>
