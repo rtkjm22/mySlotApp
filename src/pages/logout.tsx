@@ -1,15 +1,24 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { logout } from '@/stores/slice/authSlice'
 import { useRouter } from 'next/router'
+import axios from '@/utils/axiosInstance'
+import { AxiosResponse } from 'axios'
 
 function Logout() {
   const dispatch = useDispatch()
   const router = useRouter()
 
-  const handleLogout = (e: { preventDefault: () => void }) => {
+  const handleLogout = async (e: { preventDefault: () => void }) => {
     e.preventDefault()
-    dispatch(logout())
-    router.push('/login')
+    try {
+      const res: AxiosResponse = await axios.delete('/logout')
+      if (res.status !== 200) throw new Error('リクエストに失敗しました。')
+      dispatch(logout())
+      router.push('/login')
+    } catch (error) {
+      // ログインが失敗した場合は、ここでエラー処理を行う
+      console.error(error)
+    }
   }
 
   return (
