@@ -114,7 +114,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
       </header>
 
       {/* ページのコンテンツ */}
-      <main className="bg-white dark:bg-gray-900">{children}</main>
+      <main className="bg-white dark:bg-gray-900 min-h-[calc(100vh-116px)]">{children}</main>
 
       {/* 共通のフッターコンポーネント */}
       <footer className="bg-gray-800 dark:bg-white">
