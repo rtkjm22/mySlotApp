@@ -28,7 +28,7 @@ function Signin() {
       if (res.status !== 200) throw new Error('リクエストに失敗しました。')
       const unique_id = res.data.userInfo?.unique_id
       if (!unique_id) throw new Error('ユーザー情報を取得できませんでした。')
-      dispatch(setUserInfo(res.data))
+      dispatch(setUserInfo(res.data.userInfo))
       dispatch(isLogin(true))
       router.push(`/users/${unique_id}`)
     } catch (error) {

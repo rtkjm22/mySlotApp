@@ -1,17 +1,20 @@
 import Image from 'next/image'
 import { selectIsLogin } from '@/stores/slice/authSlice'
 import { selectUserInfo, setUserInfo } from '@/stores/slice/userSlice'
+import { selectScore, setScore } from '@/stores/slice/scoreSlice'
 import { UserInfo } from '@/types/store/user/user'
 import axios from '@/utils/axiosInstance'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { Score } from '@/types/store/score/score'
 
 function UserDetail() {
   const router = useRouter()
   const dispatch = useDispatch()
   const isLogin = useSelector(selectIsLogin)
   const userInfo: UserInfo = useSelector(selectUserInfo)
+  const score: Score = useSelector(selectScore)
   const unique_id = router.query
 
   const demoImage = 'https://placehold.jp/a6deda/ffffff/150x150.png'
@@ -23,7 +26,8 @@ function UserDetail() {
         .get(`/users/${unique_id}`)
         .then((res) => {
           if (res.status !== 200) throw new Error()
-          dispatch(setUserInfo(res.data.user))
+          dispatch(setUserInfo(res.data.userInfo))
+          dispatch(setScore(res.data.score))
         })
         .catch((e) => {
           router.push('/login')
@@ -48,16 +52,11 @@ function UserDetail() {
                   />
                 </div>
                 <h1 className="text-white dark:text-gray-900  font-bold text-xl leading-8 my-1">
-                  Jane Doe
+                  {userInfo.name}
                 </h1>
                 <h3 className="text-white dark:text-gray-900 font-lg text-semibold leading-6">
-                  Owner at Her Company Inc.
+                  {userInfo.email}
                 </h3>
-                <p className="text-sm text-white dark:text-gray-900 hover:text-gray-900 leading-6">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Reprehenderit, eligendi dolorum sequi illum qui unde
-                  aspernatur non deserunt
-                </p>
                 <ul className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white hover:text-white hover:shadow py-2 px-3 mt-3 divide-y rounded shadow-sm">
                   <li className="flex items-center py-3">
                     <span>Status</span>
@@ -73,7 +72,7 @@ function UserDetail() {
                   </li>
                 </ul>
               </div>
-              <div className="bg-gray-900 dark:bg-white p-3 hover:shadow">
+              {/* <div className="bg-gray-900 dark:bg-white p-3 hover:shadow">
                 <div className="flex items-center space-x-3 font-semibold text-white dark:text-gray-900 text-xl leading-8">
                   <span className="text-green-500">
                     <svg
@@ -138,7 +137,7 @@ function UserDetail() {
                     </a>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
 
             <div className="w-full md:w-9/12 mx-2 h-64">
@@ -173,14 +172,30 @@ function UserDetail() {
                       <div className="px-4 py-2 font-semibold">Email</div>
                       <div className="px-4 py-2">{userInfo.email}</div>
                     </div>
+                    <div className="grid grid-cols-2 text-white dark:text-gray-900">
+                      <div className="px-4 py-2 font-semibold">Play Count</div>
+                      <div className="px-4 py-2">{+score.play_count}</div>
+                    </div>
+                    <div className="grid grid-cols-2 text-white dark:text-gray-900">
+                      <div className="px-4 py-2 font-semibold">Last Played</div>
+                      <div className="px-4 py-2">{score.last_played}</div>
+                    </div>
+                    <div className="grid grid-cols-2 text-white dark:text-gray-900">
+                      <div className="px-4 py-2 font-semibold">Win Rate</div>
+                      <div className="px-4 py-2">{+score.win_rate}</div>
+                    </div>
+                    <div className="grid grid-cols-2 text-white dark:text-gray-900">
+                      <div className="px-4 py-2 font-semibold">Coin</div>
+                      <div className="px-4 py-2">{+score.coin}</div>
+                    </div>
                   </div>
                 </div>
-                <button className="block w-full text-blue-800 text-sm font-semibold rounded-lg hover:bg-gray-100 focus:outline-none focus:shadow-outline focus:bg-gray-100 hover:shadow-xs p-3 my-4">
+                {/* <button className="block w-full text-blue-800 text-sm font-semibold rounded-lg hover:bg-gray-100 focus:outline-none focus:shadow-outline focus:bg-gray-100 hover:shadow-xs p-3 my-4">
                   Show Full Information
-                </button>
+                </button> */}
               </div>
 
-              <div className="bg-gray-900 dark:bg-white p-3 shadow-sm rounded-sm">
+              {/* <div className="bg-gray-900 dark:bg-white p-3 shadow-sm rounded-sm">
                 <div className="grid grid-cols-2">
                   <div>
                     <div className="flex items-center space-x-2 font-semibold text-gray-900 leading-8 mb-3">
@@ -276,7 +291,7 @@ function UserDetail() {
                     </ul>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
